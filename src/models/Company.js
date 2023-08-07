@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       taxId: {
         type: DataTypes.STRING,
-        unique: true,
         validate: {
           is: /^[0-9]{13}$/,
         },
@@ -42,14 +41,6 @@ module.exports = (sequelize, DataTypes) => {
 
   Company.associate = (models) => {
     Company.hasMany(models.Class, {
-      foreignKey: {
-        name: "companyId",
-        allowNull: false,
-      },
-      onDelete: "RESTRICT",
-    });
-
-    Company.hasMany(models.Order, {
       foreignKey: {
         name: "companyId",
         allowNull: false,

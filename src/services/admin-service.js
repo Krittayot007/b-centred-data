@@ -20,3 +20,5 @@ exports.searchService = async (search) => {
 
   return result;
 };
+
+exports.createService = async (data) => {};

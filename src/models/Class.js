@@ -65,6 +65,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "RESTRICT",
     });
+
+    Class.hasMany(models.Order, {
+      foreignKey: {
+        name: "classId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
   };
 
   return Class;

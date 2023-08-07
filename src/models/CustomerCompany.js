@@ -3,9 +3,10 @@ module.exports = (sequelize, DataTypes) => {
     "CustomerCompany",
     {
       id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
+        autoIncrement: true,
       },
       companyPrefix: {
         type: DataTypes.STRING,
@@ -43,21 +44,21 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          is: /^[0-9]{10}$/,
+          is: /^[0-9\-#]$/,
         },
       },
       telNo2: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          is: /^[0-9]{10}$/,
+          is: /^[0-9\-#]$/,
         },
       },
       fax: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
-          is: /^[0-9]{9}$/,
+          is: /^[0-9\-#]$/,
         },
       },
       facebook: {

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       tel: {
         type: DataTypes.STRING,
         validate: {
-          is: /^[0-9]{10}$/,
+          is: /^[0-9\-#]$/,
         },
       },
       facebook: {

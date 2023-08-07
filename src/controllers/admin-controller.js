@@ -15,7 +15,30 @@ exports.searchController = async (req, res, next) => {
       const Salesman = data.Salesman;
 
       const arr = [Class, Company, CustomerCompany, CustomerPerson, Salesman];
+      const rs = arr.some((condition) => {
+        if (search) {
+          return condition?.toLowerCase().includes(search?.toLowerCase());
+        }
+        return true;
+      });
+      if (rs) {
+        acc.push(data);
+      }
+      return acc;
     }, []);
+
+    if (result.length === 0) {
+      res.json("notfound");
+    } else {
+      res.status(200).json({ result });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createDataController = async (req, res, next) => {
+  try {
   } catch (error) {
     next(error);
   }

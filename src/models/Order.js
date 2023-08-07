@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      saleCompany: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       underscored: true,
@@ -34,9 +38,9 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Order.associate = (models) => {
-    Order.belongsTo(models.Class, {
+    Order.belongsTo(models.Company, {
       foreignKey: {
-        name: "companyId",
+        name: "classId",
         allowNull: false,
       },
       onDelete: "RESTRICT",
