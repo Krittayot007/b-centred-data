@@ -11,7 +11,7 @@ exports.searchService = async (search) => {
   let result = await Order.findAll({
     include: [
       { model: Class },
-      { model: Company },
+      //   { model: Company },
       { model: CustomerCompany },
       { model: CustomerPerson },
       { model: Salesman },
@@ -21,4 +21,6 @@ exports.searchService = async (search) => {
   return result;
 };
 
-exports.createService = async (data) => {};
+exports.createClassService = async (data) => {
+  const result = await Class.create();
+};

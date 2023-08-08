@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Order.associate = (models) => {
-    Order.belongsTo(models.Company, {
+    Order.belongsTo(models.Class, {
       foreignKey: {
         name: "classId",
         allowNull: false,

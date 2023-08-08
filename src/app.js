@@ -4,8 +4,10 @@ const cors = require("cors");
 const morgan = require("morgan");
 const helmet = require("helmet");
 
-const notFoundMiddleware = require("./middleware/notFound");
-const errorMiddleware = require("./middleware/error");
+const orderRoute = require("./routes/order-route");
+
+const notFoundMiddleware = require("./middlewares/notFound");
+const errorMiddleware = require("./middlewares/error");
 
 const app = express();
 
@@ -16,6 +18,8 @@ if (process.env.NODE_ENV === "development") {
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+app.use("/order", orderRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
