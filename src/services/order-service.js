@@ -40,7 +40,7 @@ exports.searchService = async (search) => {
 };
 
 exports.filterOrderBetweenDate = async (startDate, endDate) => {
-  let findDate = Order.findAll({
+  let findDate = await Order.findAll({
     where: {
       createdAt: {
         [Op.between]: [startDate, endDate],
@@ -49,4 +49,43 @@ exports.filterOrderBetweenDate = async (startDate, endDate) => {
   });
 
   return findDate;
+};
+
+exports.sumPrice = async () => {
+  let sum = await Order.sum("salesPrice");
+
+  return sum;
+};
+
+exports.sortOrderByPriceASC = async () => {
+  // น้อยไปมาก
+  let sortData = await Order.findAll({
+    order: [["salesPrice", "ASC"]],
+  });
+
+  return sortData;
+};
+
+exports.sortOrderByPriceDESC = async () => {
+  let sortData = await Order.findAll({
+    order: [["salesPrice", "DESC"]],
+  });
+
+  return sortData;
+};
+
+exports.sortOldestOrderByDate = async () => {
+  let sortDataByDate = await Order.findAll({
+    order: [["createdAt", "ASC"]],
+  });
+
+  return sortDataByDate;
+};
+
+exports.sortLatestOrderByDate = async () => {
+  let sortDataByDate = await Order.findAll({
+    order: [["createdAt", "DESC"]],
+  });
+
+  return sortDataByDate;
 };
