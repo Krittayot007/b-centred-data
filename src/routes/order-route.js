@@ -11,5 +11,9 @@ router.get("/sortOrderASC", orderController.sortOrderByPriceASC);
 router.get("/sortOrderDESC", orderController.sortOrderByPriceDESC);
 router.get("/sortOldestOrderByDate", orderController.sortOldestOrderByDate);
 router.get("/sortLatestOrderByDate", orderController.sortLatestOrderByDate);
+router.get("/countOrderToday", orderController.countNumberOrderToday);
+router.get("/fetchOrderToday", orderController.fetchDataAddToday);
+router.get("/countOrderThisMonth", orderController.countMonthOrder);
+router.get("/fetchOrderThisMonth", orderController.fetchOrderThisMonth);
 
 module.exports = router;

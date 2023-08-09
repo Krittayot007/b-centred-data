@@ -90,3 +90,39 @@ exports.sortLatestOrderByDate = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.countNumberOrderToday = async (req, res, next) => {
+  try {
+    const result = await orderService.countNumberOrderToday();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.fetchDataAddToday = async (req, res, next) => {
+  try {
+    const result = await orderService.fetchDataAddToday();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.countMonthOrder = async (req, res, next) => {
+  try {
+    const countMonth = await orderService.countNumberOrderThisMonth();
+    res.status(200).json(countMonth);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.fetchOrderThisMonth = async (req, res, next) => {
+  try {
+    const fetchData = await orderService.fetchOrderThisMonth();
+    res.status(200).json(fetchData);
+  } catch (error) {
+    next(error);
+  }
+};
