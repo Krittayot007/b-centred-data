@@ -17,7 +17,7 @@ exports.filterOrderByDate = async (req, res, next) => {
     const result = await orderService.filterOrderBetweenDate(
       startDate,
       endDate
-    );
+    ); // recheck time zone database
     res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -122,6 +122,71 @@ exports.fetchOrderThisMonth = async (req, res, next) => {
   try {
     const fetchData = await orderService.fetchOrderThisMonth();
     res.status(200).json(fetchData);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchOrderByTimeLength = async (req, res, next) => {
+  try {
+    const beginTime = req.query.beginTime;
+    const lastTime = req.query.lastTime;
+    const startTime = new Date(beginTime);
+    const endTime = new Date(lastTime);
+
+    const resultRecords = await orderService.searchOrderByTimeLength(
+      startTime,
+      endTime
+    );
+    res.status(200).json(resultRecords);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchOrderByClassId = async (req, res, next) => {
+  try {
+    const classId = req.body.classId;
+    const result = await orderService.searchOrderByClassId(classId);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.sortOrderGroupByPersonalId = async (req, res, next) => {
+  try {
+    const result = await orderService.sortOrderGroupByPersonalId();
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.sortOrderGroupByCompanyId = async (req, res, next) => {
+  try {
+    const result = await orderService.sortOrderGroupByCompanyId();
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.countOrderByPersonalId = async (req, res, next) => {
+  try {
+    const result = await orderService.countOrderByPersonalId();
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.countOrderByCompanyId = async (req, res, next) => {
+  try {
+    const result = await orderService.countOrderByCompanyId();
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }

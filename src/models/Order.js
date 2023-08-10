@@ -2,6 +2,11 @@ module.exports = (sequelize, DataTypes) => {
   const Order = sequelize.define(
     "Order",
     {
+      // salesDate: {
+      //   type: DataTypes.DATETIME,
+      //   allowNull: false,
+      //   defaultValue: new Date(), // search แทน createdAt
+      // },
       salesSlip: {
         type: DataTypes.STRING,
         allowNull: false,

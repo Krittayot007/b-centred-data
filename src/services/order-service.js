@@ -6,6 +6,7 @@ const {
   CustomerPerson,
   Order,
   Salesman,
+  sequelize,
 } = require("../models");
 
 exports.searchService = async (search) => {
@@ -34,6 +35,7 @@ exports.searchService = async (search) => {
       { model: CustomerPerson },
       { model: Salesman },
     ],
+    limit: 100,
   });
 
   return data;
@@ -46,6 +48,7 @@ exports.filterOrderBetweenDate = async (startDate, endDate) => {
         [Op.between]: [startDate, endDate],
       },
     },
+    limit: 100,
   });
 
   return findDate;
@@ -61,6 +64,7 @@ exports.sortOrderByPriceASC = async () => {
   // น้อยไปมาก
   let sortData = await Order.findAll({
     order: [["salesPrice", "ASC"]],
+    limit: 100,
   });
 
   return sortData;
@@ -69,6 +73,7 @@ exports.sortOrderByPriceASC = async () => {
 exports.sortOrderByPriceDESC = async () => {
   let sortData = await Order.findAll({
     order: [["salesPrice", "DESC"]],
+    limit: 100,
   });
 
   return sortData;
@@ -77,6 +82,7 @@ exports.sortOrderByPriceDESC = async () => {
 exports.sortOldestOrderByDate = async () => {
   let sortDataByDate = await Order.findAll({
     order: [["createdAt", "ASC"]],
+    limit: 100,
   });
 
   return sortDataByDate;
@@ -85,6 +91,7 @@ exports.sortOldestOrderByDate = async () => {
 exports.sortLatestOrderByDate = async () => {
   let sortDataByDate = await Order.findAll({
     order: [["createdAt", "DESC"]],
+    limit: 100,
   });
 
   return sortDataByDate;
@@ -104,6 +111,7 @@ exports.countNumberOrderToday = async () => {
         [Op.lt]: startOfDay(new Date(today.getTime() + 24 * 60 * 60 * 1000)),
       },
     },
+    limit: 100,
   });
 
   return count;
@@ -123,6 +131,7 @@ exports.fetchDataAddToday = async () => {
         [Op.lt]: startOfDay(new Date(today.getTime() + 24 * 60 * 60 * 1000)),
       },
     },
+    limit: 100,
   });
 
   return fetchData;
@@ -140,6 +149,7 @@ exports.countNumberOrderThisMonth = async () => {
         [Op.lt]: endOfMonth,
       },
     },
+    limit: 100,
   });
 
   return monthCount;
@@ -157,7 +167,84 @@ exports.fetchOrderThisMonth = async () => {
         [Op.lt]: endOfMonth,
       },
     },
+    limit: 100,
   });
 
   return monthData;
+};
+
+exports.searchOrderByTimeLength = async (startTime, endTime) => {
+  const records = await Order.findAll({
+    where: {
+      createdAt: {
+        [Op.between]: [startTime, endTime],
+      },
+    },
+    limit: 100,
+  });
+
+  return records;
+};
+
+exports.searchOrderByClassId = async (id) => {
+  const order = await Order.findAll({
+    where: {
+      classId: id,
+    },
+    limit: 100,
+  });
+
+  return order;
+};
+
+exports.sortOrderGroupByPersonalId = async () => {
+  const sumAndGroup = await Order.findAll({
+    attributes: [
+      "customer_person_id",
+      [sequelize.fn("SUM", sequelize.col("sales_price")), "total_price"],
+    ],
+    group: ["customer_person_id"],
+    order: [["total_price", "DESC"]],
+  });
+
+  return sumAndGroup;
+};
+
+exports.sortOrderGroupByCompanyId = async () => {
+  const sumAndGroup = await Order.findAll({
+    attributes: [
+      "customer_company_id",
+      [sequelize.fn("SUM", sequelize.col("sales_price")), "total_price"],
+    ],
+    group: ["customer_company_id"],
+    order: [["total_price", "DESC"]],
+  });
+
+  return sumAndGroup;
+};
+
+exports.countOrderByPersonalId = async () => {
+  const countAndGroup = await Order.findAll({
+    attributes: [
+      "customer_person_id",
+      [sequelize.fn("COUNT", sequelize.col("sales_price")), "count_price"],
+    ],
+    group: ["customer_person_id"],
+    order: [["count_price", "DESC"]],
+  });
+
+  return countAndGroup;
+};
+
+exports.countOrderByCompanyId = async () => {
+  const countAndGroup = await Order.findAll({
+    attributes: [
+      "customer_company_id",
+      [sequelize.fn("COUNT", sequelize.col("sales_price")), "count_price"],
+    ],
+    group: ["customer_company_id"],
+    order: [["count_price", "DESC"]],
+  });
+
+  return countAndGroup;
 };
