@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 
 const orderRoute = require("./routes/order-route");
+const customerRoute = require("./routes/customer-route");
 
 const notFoundMiddleware = require("./middlewares/notFound");
 const errorMiddleware = require("./middlewares/error");
@@ -20,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/order", orderRoute);
+app.use("/customer", customerRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
