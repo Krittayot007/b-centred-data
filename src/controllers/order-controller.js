@@ -10,6 +10,16 @@ exports.searchController = async (req, res, next) => {
   }
 };
 
+exports.searchByCustomerId = async (req, res, next) => {
+  try {
+    const personId = req.body.personId;
+    const result = await orderService.searchByCustomerId(personId);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.filterOrderByDate = async (req, res, next) => {
   try {
     const startDate = req.query.startDate;
@@ -149,6 +159,38 @@ exports.searchOrderByClassId = async (req, res, next) => {
     const classId = req.body.classId;
     const result = await orderService.searchOrderByClassId(classId);
     res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.searchOrderByClassIdAndFetchAllClass = async (req, res, next) => {
+  try {
+    const classId = req.body.classId;
+    const customerPersonId =
+      await orderService.searchOrderByClassIdAndGetCustomerPersonId(classId);
+    const promises = customerPersonId.map(async (item) => {
+      const rs = await orderService.searchByCustomerIdWithOutStartClass(
+        item.customerPersonId
+      );
+
+      return rs;
+    });
+    const result = await Promise.all(promises);
+    const copy = result.flat(1);
+
+    let groupedData = {};
+
+    const data = copy.forEach((item) => {
+      const classId = item.classId;
+      const customerName = item.CustomerPerson.customerNameTh;
+
+      if (!groupedData[classId]) {
+        groupedData[classId] = [];
+      }
+      groupedData[classId].push(customerName);
+    });
+    res.status(200).json(groupedData);
   } catch (error) {
     next(error);
   }

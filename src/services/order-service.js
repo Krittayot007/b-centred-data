@@ -9,6 +9,10 @@ const {
   sequelize,
 } = require("../models");
 
+const globalLimit = 100;
+
+// search class by list of customer id
+
 exports.searchService = async (search) => {
   let data = await Order.findAll({
     where: {
@@ -35,10 +39,39 @@ exports.searchService = async (search) => {
       { model: CustomerPerson },
       { model: Salesman },
     ],
-    limit: 100,
+    limit: globalLimit,
   });
 
   return data;
+};
+
+exports.searchByCustomerId = async (id) => {
+  let findData = await Order.findAll({
+    where: {
+      customerPersonId: id,
+    },
+    limit: globalLimit,
+  });
+
+  return findData;
+};
+
+exports.searchByCustomerIdWithOutStartClass = async (id) => {
+  let findData = await Order.findAll({
+    where: {
+      customerPersonId: id,
+    },
+    include: [
+      {
+        model: CustomerPerson,
+        attributes: ["customerNameTh"],
+      },
+    ],
+    attributes: ["classId"],
+    limit: globalLimit,
+  });
+
+  return findData;
 };
 
 exports.filterOrderBetweenDate = async (startDate, endDate) => {
@@ -48,7 +81,7 @@ exports.filterOrderBetweenDate = async (startDate, endDate) => {
         [Op.between]: [startDate, endDate],
       },
     },
-    limit: 100,
+    limit: globalLimit,
   });
 
   return findDate;
@@ -64,7 +97,7 @@ exports.sortOrderByPriceASC = async () => {
   // น้อยไปมาก
   let sortData = await Order.findAll({
     order: [["salesPrice", "ASC"]],
-    limit: 100,
+    limit: globalLimit,
   });
 
   return sortData;
@@ -73,7 +106,7 @@ exports.sortOrderByPriceASC = async () => {
 exports.sortOrderByPriceDESC = async () => {
   let sortData = await Order.findAll({
     order: [["salesPrice", "DESC"]],
-    limit: 100,
+    limit: globalLimit,
   });
 
   return sortData;
@@ -82,7 +115,7 @@ exports.sortOrderByPriceDESC = async () => {
 exports.sortOldestOrderByDate = async () => {
   let sortDataByDate = await Order.findAll({
     order: [["createdAt", "ASC"]],
-    limit: 100,
+    limit: globalLimit,
   });
 
   return sortDataByDate;
@@ -91,7 +124,7 @@ exports.sortOldestOrderByDate = async () => {
 exports.sortLatestOrderByDate = async () => {
   let sortDataByDate = await Order.findAll({
     order: [["createdAt", "DESC"]],
-    limit: 100,
+    limit: globalLimit,
   });
 
   return sortDataByDate;
@@ -111,7 +144,7 @@ exports.countNumberOrderToday = async () => {
         [Op.lt]: startOfDay(new Date(today.getTime() + 24 * 60 * 60 * 1000)),
       },
     },
-    limit: 100,
+    limit: globalLimit,
   });
 
   return count;
@@ -131,7 +164,7 @@ exports.fetchDataAddToday = async () => {
         [Op.lt]: startOfDay(new Date(today.getTime() + 24 * 60 * 60 * 1000)),
       },
     },
-    limit: 100,
+    limit: globalLimit,
   });
 
   return fetchData;
@@ -149,7 +182,7 @@ exports.countNumberOrderThisMonth = async () => {
         [Op.lt]: endOfMonth,
       },
     },
-    limit: 100,
+    limit: globalLimit,
   });
 
   return monthCount;
@@ -167,7 +200,7 @@ exports.fetchOrderThisMonth = async () => {
         [Op.lt]: endOfMonth,
       },
     },
-    limit: 100,
+    limit: globalLimit,
   });
 
   return monthData;
@@ -180,7 +213,7 @@ exports.searchOrderByTimeLength = async (startTime, endTime) => {
         [Op.between]: [startTime, endTime],
       },
     },
-    limit: 100,
+    limit: globalLimit,
   });
 
   return records;
@@ -191,7 +224,26 @@ exports.searchOrderByClassId = async (id) => {
     where: {
       classId: id,
     },
-    limit: 100,
+    limit: globalLimit,
+  });
+
+  return order;
+};
+
+exports.searchOrderByClassIdAndGetCustomerPersonId = async (id) => {
+  const order = await Order.findAll({
+    where: {
+      classId: id,
+    },
+    attributes: ["customerPersonId"],
+    // include: [
+    //   {
+    //     model: CustomerPerson,
+    //     attributes: ["id", "customerNameTh"],
+    //   },
+    // ],
+
+    limit: globalLimit,
   });
 
   return order;

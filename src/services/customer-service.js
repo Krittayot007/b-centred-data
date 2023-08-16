@@ -1,5 +1,10 @@
 const { CustomerPerson, CustomerCompany, sequelize } = require("../models");
 
+// search by group attribute id
+// check union all in sequelize
+
+exports.searchBy;
+
 exports.checkDupilateCustomerPersonalByNameTH = async () => {
   const duplicate = await CustomerPerson.findAll({
     attributes: [

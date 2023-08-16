@@ -5,6 +5,7 @@ const router = express.Router();
 
 // search and filter order
 router.post("/searchOrder", orderController.searchController);
+router.post("/searchByCustomerId", orderController.searchByCustomerId);
 router.get("/filterOrderByDate", orderController.filterOrderByDate);
 router.get("/sumPriceAll", orderController.sumPriceAllTime);
 router.get("/sumByFilterDate", orderController.sumPriceFilterByDate);
@@ -18,6 +19,10 @@ router.get("/countOrderThisMonth", orderController.countMonthOrder);
 router.get("/fetchOrderThisMonth", orderController.fetchOrderThisMonth);
 router.get("/serchOrderByTime", orderController.searchOrderByTimeLength);
 router.post("/searchOrderByClassId", orderController.searchOrderByClassId);
+router.post(
+  "/searchOrderByClassIdAndFetchAllClass",
+  orderController.searchOrderByClassIdAndFetchAllClass
+);
 router.get(
   "/sortOrderGroupByPersonalId",
   orderController.sortOrderGroupByPersonalId
