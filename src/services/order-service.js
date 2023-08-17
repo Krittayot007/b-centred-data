@@ -11,8 +11,6 @@ const {
 
 const globalLimit = 100;
 
-// search class by list of customer id
-
 exports.searchService = async (search) => {
   let data = await Order.findAll({
     where: {
@@ -67,7 +65,7 @@ exports.searchByCustomerIdWithOutStartClass = async (id) => {
         attributes: ["customerNameTh"],
       },
     ],
-    attributes: ["classId"],
+    attributes: ["customerPersonId", "classId"],
     limit: globalLimit,
   });
 
@@ -300,3 +298,12 @@ exports.countOrderByCompanyId = async () => {
 
   return countAndGroup;
 };
+
+// manual service
+// const unionQuery = `
+//       SELECT * FROM ModelA
+//       UNION
+//       SELECT * FROM ModelB
+//     `;
+
+//     const result = await sequelize.query(unionQuery, { type: Sequelize.QueryTypes.SELECT });

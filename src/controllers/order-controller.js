@@ -184,11 +184,12 @@ exports.searchOrderByClassIdAndFetchAllClass = async (req, res, next) => {
     const data = copy.forEach((item) => {
       const classId = item.classId;
       const customerName = item.CustomerPerson.customerNameTh;
+      const customerId = item.customerPersonId;
 
       if (!groupedData[classId]) {
         groupedData[classId] = [];
       }
-      groupedData[classId].push(customerName);
+      groupedData[classId].push({ customerId, customerName });
     });
     res.status(200).json(groupedData);
   } catch (error) {
