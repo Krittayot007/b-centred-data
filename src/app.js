@@ -8,6 +8,7 @@ const rateLimit = require("express-rate-limit");
 const orderRoute = require("./routes/order-route");
 const customerRoute = require("./routes/customer-route");
 const classRoute = require("./routes/class-route");
+const crudRoute = require("./routes/crud-route");
 
 const notFoundMiddleware = require("./middlewares/notFound");
 const errorMiddleware = require("./middlewares/error");
@@ -33,6 +34,7 @@ app.use(express.json());
 app.use("/order", orderRoute);
 app.use("/customer", customerRoute);
 app.use("/class", classRoute);
+app.use("/crud", crudRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
