@@ -55,3 +55,5 @@ exports.checkDuplicateCustomerCompanyByTax = async (req, res, next) => {
     next(error);
   }
 };
+
+// ลองรวม service ของ customer 3 in 1
