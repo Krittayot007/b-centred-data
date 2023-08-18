@@ -298,12 +298,3 @@ exports.countOrderByCompanyId = async () => {
 
   return countAndGroup;
 };
-
-// manual service
-// const unionQuery = `
-//       SELECT * FROM ModelA
-//       UNION
-//       SELECT * FROM ModelB
-//     `;
-
-//     const result = await sequelize.query(unionQuery, { type: Sequelize.QueryTypes.SELECT });
