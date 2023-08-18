@@ -27,5 +27,6 @@ router.get(
   "/checkDuplicateCustomerCompanyByTax",
   customerController.checkDuplicateCustomerCompanyByTax
 );
+router.get("/findIdWithDuplicateName", customerController.findIdWithName);
 
 module.exports = router;

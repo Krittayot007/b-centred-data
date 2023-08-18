@@ -106,3 +106,14 @@ exports.checkDuplicateCustomerCompanyByTax = async () => {
 
   return duplicate;
 };
+
+exports.findIdbyName = async (name) => {
+  const customerId = await CustomerPerson.findAll({
+    attributes: ["id"],
+    where: {
+      customerNameTh: name,
+    },
+  });
+
+  return customerId;
+};
