@@ -35,6 +35,15 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      checkByAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      sellAt: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       underscored: true,

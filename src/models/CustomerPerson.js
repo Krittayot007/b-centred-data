@@ -75,6 +75,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      secretIdLine: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      teachableId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       //   getterMethods: {
